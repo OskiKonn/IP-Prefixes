@@ -1,5 +1,4 @@
 #include <cstdint>
-#include <string>
 
 
 class IPv4PrefixSet
@@ -12,14 +11,13 @@ class IPv4PrefixSet
 
     bool add(const uint32_t &base, const uint8_t maskLenght);
     bool del(const uint32_t &base, const uint8_t maskLenght);
-    bool isPrefixValid(const uint32_t &base, const uint8_t maskLenght);
     int check(const uint32_t &ip);
 
     private:
 
     struct IPNode
     {
-        bool bit;
+        bool bit = 0;
         bool isPrefix = false;
         bool leadsToPrefix = false;
         uint8_t maskLength = 40;
@@ -32,8 +30,10 @@ class IPv4PrefixSet
     };
 
     IPNode* prefixTree = nullptr;
-    bool foundNewPrefix(IPNode* node, uint8_t maskLength);
-    bool hasSibling(IPNode* node, bool nodeBit);
+    bool isPrefixValid(const uint32_t &base, const uint8_t maskLenght, const char* ipAsString);
+    bool hasSibling(const IPNode* node, bool nodeBit);
     bool detachNodes(IPNode* node);
+    bool isDetachable(const IPNode* node);
+    void parseToCIDR(const uint32_t &base, const uint8_t maskLenght, char* outBuffer);
     void freeTree(IPNode* node);
 };
