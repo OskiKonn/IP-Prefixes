@@ -1,7 +1,6 @@
 
 #include <iostream>
-#include <chrono>
-#include "include/IPv4PrefixSet.hpp"
+#include "IPv4PrefixSet.hpp"
 
 
 IPv4PrefixSet::IPv4PrefixSet()
@@ -132,7 +131,6 @@ bool IPv4PrefixSet::del(const uint32_t &base, const uint8_t maskLenght)
 
 int IPv4PrefixSet::check(const uint32_t &ip)
 {
-    auto start = std::chrono::high_resolution_clock::now();
 
     uint8_t depth = 0;
     int maxMaskLength = -1;
@@ -150,11 +148,6 @@ int IPv4PrefixSet::check(const uint32_t &ip)
 
         ++depth;
     }
-
-
-    auto end = std::chrono::high_resolution_clock::now();
-    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(end - start);
-    std::cout << "\nCheck elapsed time: " << duration.count() << " microseconds\n";
 
     return maxMaskLength;
 }
